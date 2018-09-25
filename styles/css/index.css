@@ -133,6 +133,32 @@ label {
 #next:hover, #prev:hover {
   opacity: 0.8; }
 
+#slider-navigation {
+  position: absolute;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  background-color: #1e222b;
+  opacity: 0.41;
+  z-index: 5;
+}
+
+#slider-navigation:hover {
+  opacity: 1;
+}
+
+#slider-navigation-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.sliderNavigationImage {
+  margin: 10px;
+  height: 70px;
+  display: flex;
+  border: 1px solid #000000;
+}
+
 #magazine {
   position: relative;
   width: 100%;
@@ -215,5 +241,9 @@ label {
   #next.active {
     width: 60px;
     height: 60px;
+  }
+
+  #slider-navigation-container {
+    display: none;
   }
 }
