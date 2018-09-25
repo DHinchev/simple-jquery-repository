@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type">
+    <meta charset="content=text/html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Image Sliders</title>
+    <link rel="stylesheet" type="text/css" href="styles/css/index.min.css">
+</head>
+
+<body>
+    <div id="top">
+        <svg enable-background="new 0 0 314.069 314.069" version="1.1" viewBox="0 0 314.069 314.069" xmlns="http://www.w3.org/2000/svg">
+            <path d="m293 78.531c-43.357-75.095-139.38-100.83-214.47-57.47-75.095 43.35-100.83 139.38-57.462 214.48 43.35 75.087 139.38 100.82 214.46 57.467 75.096-43.361 100.84-139.39 57.471-214.48zm-73.168 187.27c-60.067 34.685-136.89 14.114-171.58-45.961-34.682-60.079-14.098-136.9 45.971-171.58 60.071-34.69 136.89-14.106 171.58 45.971 34.685 60.076 14.098 136.89-45.973 171.57zm-51.703-144.77c-3.066-3.07-7.077-4.599-11.097-4.599-4.018 0-8.031 1.529-11.101 4.599l-44.409 44.406c-6.133 6.128-6.133 16.078 0 22.206v-9e-3c6.129 6.132 16.076 6.132 22.201 0l33.308-33.299 33.298 33.299c6.135 6.132 16.077 6.132 22.201 0v9e-3c6.135-6.128 6.135-16.078 0-22.206l-44.401-44.406z" />
+        </svg>
+    </div>
+    <input id="toggle" type="checkbox" />
+    <div class="slide-menu">
+        <label for="toggle" id="menu-label">
+            <svg class="menu-icon" width="40px" height="40px" enable-background="new 0 0 512 512" version="1.1" viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="m491.32 235.32h-470.64c-11.422 0-20.682 9.259-20.682 20.682s9.26 20.682 20.682 20.682h470.64c11.423 0 20.682-9.259 20.682-20.682 0-11.422-9.259-20.682-20.682-20.682z" />
+                <path d="m491.32 78.439h-470.64c-11.422 0-20.682 9.26-20.682 20.682s9.26 20.682 20.682 20.682h470.64c11.423 0 20.682-9.26 20.682-20.682s-9.259-20.682-20.682-20.682z" />
+                <path d="m491.32 392.2h-470.64c-11.422 0-20.682 9.259-20.682 20.682s9.26 20.682 20.682 20.682h470.64c11.423 0 20.682-9.259 20.682-20.682s-9.259-20.682-20.682-20.682z" />
+            </svg>
+        </label>
+        <nav class="menu">
+            <ul>
+                <li><a href="#classic" id="cslider">Classic slider</a></li>
+                <li><a href="#magazine" id="mslider">Magazine Slider</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div id="classic">
+        <div id="slider">
+            <img src="assets/images/1.jpg" class="sliderImg" alt="Mountain Nature">
+            <img src="assets/images/2.jpg" class="sliderImg" alt="Autumn Nature">
+            <img src="assets/images/3.jpg" class="sliderImg" alt="Mountain sunset">
+            <img src="assets/images/4.jpg" class="sliderImg" alt="River ">
+            <img src="assets/images/5.jpg" class="sliderImg" alt="Fields with hills">
+            <img src="assets/images/6.jpg" class="sliderImg" alt="Forest Sunset">
+        </div>
+        <svg id="prev" enable-background="new 0 0 478.448 478.448" version="1.1" viewBox="0 0 478.448 478.448" width="100px"
+            height="100px">
+            <polygon points="131.66 0 100.49 32.035 313.8 239.23 100.49 446.37 131.65 478.45 377.95 239.23" fill="#010002" />
+        </svg>
+        <svg id="next" enable-background="new 0 0 478.448 478.448" version="1.1" viewBox="0 0 478.448 478.448" width="100px"
+            height="100px">
+            <polygon points="131.66 0 100.49 32.035 313.8 239.23 100.49 446.37 131.65 478.45 377.95 239.23" fill="#010002" />
+        </svg>
+    </div>
+    <div id="magazine">
+        <div id="slideMagazine">
+            <ul id="slideMagazineContainer">
+                <li><img src="assets/images/1.jpg" class="firstMagazineImg magazineImg" alt="Mountain Nature"></li>
+                <li><img src="assets/images/2.jpg" class="secondMagazineImg magazineImg" alt="Autumn Nature"></li>
+                <li><img src="assets/images/3.jpg" class="thirdMagazineImg magazineImg" alt="Mountain sunset"></li>
+                <li><img src="assets/images/4.jpg" class="fourthMagazineImg magazineImg" alt="River"></li>
+                <li><img src="assets/images/5.jpg" class="fifthMagazineImg magazineImg" alt="Fields with hills"></li>
+                <li><img src="assets/images/6.jpg" class="sixthMagazineImg magazineImg" alt="Forest Sunset"></li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script> ClassicSlider.initSlider('#slider')</script>
+</body>
+
+</html>
