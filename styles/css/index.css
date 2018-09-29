@@ -61,9 +61,6 @@ label {
   background-color: transparent;
   border: 0; }
 
-#magazine {
-  background-color: #6600ff; }
-
 #classic, #magazine {
   height: 550pt; }
 
@@ -78,7 +75,7 @@ label {
 
 #classic {
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
   max-width: 1920px;
   width: 100%;
   height: 100vh; }
@@ -88,6 +85,11 @@ label {
   display: flex;
   flex-flow: row wrap;
   z-index: 5;
+  transition: all .5s ease-out;
+}
+
+.animateOnMobile {
+  transition: all .5s ease-out;
 }
 
 #slider img {
@@ -159,6 +161,22 @@ label {
   border: 1px solid #000000;
 }
 
+.slider-navigation,
+.sliderNavigationImage {
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+
+.round-bullet-navigation {
+  width: 10px;
+  height: 10px;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+
 #magazine {
   position: relative;
   width: 100%;
@@ -222,28 +240,57 @@ label {
 
 @media only screen and (max-width: 740px) {
   #slider img {
-    max-width: 700px;
-    width: 700px;
+    max-width: 750px;
+    width: 750px;
     height: 50vh;
   }
   
-  #classic {
+  #classic,
+  #magazine {
     background-color: #1e222b;
-    opacity: 0.8;
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+
+  #magazine {
+    background-color: #ffffff;
   }
   
   #prev,
   #next,
   #prev.active,
   #next.active {
-    width: 60px;
-    height: 60px;
+    display: none;
   }
 
-  #slider-navigation-container {
+  #slider-navigation-container,
+  #slider-navigation {
     display: none;
+  }
+
+  #bullets-navigation {
+    position: relative;
+    width: 50%;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #slider-bullets {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .active-bullet {
+    background-color: #888888;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #000000;
+  }
+
+  #magazine #slideMagazineContainer img,
+  #slideMagazine {
+    height: 50vh;
   }
 }
