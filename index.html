@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
     <title>Image Sliders</title>
-    <link rel="stylesheet" type="text/css" href="styles/css/index.css">
+    <link rel="stylesheet" type="text/css" href="styles/css/index.min.css">
 </head>
 
 <body>
@@ -28,8 +28,8 @@
             </ul>
         </nav>
     </div>
-    <div id="classic">
-        <div id="slider">
+    <div id="classic" data-slider-container="true">
+        <div id="slider" data-slider-speed="5000" data-slider-duration="2000" data-slider-mobile-duration="500" data-slider="true">
             <img src="assets/images/1.jpg" class="sliderImg" alt="Mountain Nature">
             <img src="assets/images/2.jpg" class="sliderImg" alt="Autumn Nature">
             <img src="assets/images/3.jpg" class="sliderImg" alt="Mountain sunset">
@@ -37,11 +37,11 @@
             <img src="assets/images/5.jpg" class="sliderImg" alt="Fields with hills">
             <img src="assets/images/6.jpg" class="sliderImg" alt="Forest Sunset">
         </div>
-        <svg id="prev" enable-background="new 0 0 478.448 478.448" version="1.1" viewBox="0 0 478.448 478.448" width="100px"
+        <svg id="prev" data-slider-prev="prev" enable-background="new 0 0 478.448 478.448" version="1.1" viewBox="0 0 478.448 478.448"
             height="100px">
             <polygon points="131.66 0 100.49 32.035 313.8 239.23 100.49 446.37 131.65 478.45 377.95 239.23" fill="#010002" />
         </svg>
-        <svg id="next" enable-background="new 0 0 478.448 478.448" version="1.1" viewBox="0 0 478.448 478.448" width="100px"
+        <svg id="next" data-slider-next="next" enable-background="new 0 0 478.448 478.448" version="1.1" viewBox="0 0 478.448 478.448"
             height="100px">
             <polygon points="131.66 0 100.49 32.035 313.8 239.23 100.49 446.37 131.65 478.45 377.95 239.23" fill="#010002" />
         </svg>
@@ -61,7 +61,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>
     <script>
-        ClassicSlider.initSlider('#slider');
+        ClassicSlider.initSlider();
     </script>
 </body>
 

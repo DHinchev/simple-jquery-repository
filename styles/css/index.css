@@ -85,16 +85,10 @@ label {
   display: flex;
   flex-flow: row wrap;
   z-index: 5;
-  transition: all .5s ease-out;
-}
-
-.animateOnMobile {
-  transition: all .5s ease-out;
 }
 
 #slider img {
   max-width: 1920px;
-  width: 1920px;
   height: 100vh;
 }
 
@@ -151,7 +145,7 @@ label {
 
 #slider-navigation-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 .sliderNavigationImage {
