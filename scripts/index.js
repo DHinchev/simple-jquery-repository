@@ -2,9 +2,9 @@
     var ClassicSlider = function () {
 
         function getSliderElement() {
-            if($(document).find($('[data-slider]')) && $('[data-slider]').attr('data-slider') == 'true') {
+            if ($(document).find($('[data-slider]')) && $('[data-slider]').attr('data-slider') == 'true') {
                 var sliderId = $('[data-slider]').attr('id');
-                var slider = $('#'+sliderId);
+                var slider = $('#' + sliderId);
             } else {
                 throw new Error("Error: data-slider attribute not set on page");
             }
@@ -12,9 +12,9 @@
         }
 
         function getSliderContainerElement() {
-            if($(document).find($('[data-slider-container]')) && $('[data-slider-container]').attr('data-slider-container') == 'true') {
+            if ($(document).find($('[data-slider-container]')) && $('[data-slider-container]').attr('data-slider-container') == 'true') {
                 var containerId = $('[data-slider-container]').attr('id');
-                var sliderContainer = $('#'+containerId);
+                var sliderContainer = $('#' + containerId);
             } else {
                 throw new Error("Error: data-slider-container attribute not set on page");
             }
@@ -22,7 +22,7 @@
         }
 
         function getSliderTransitionTime() {
-            if($(document).find($('[data-slider-speed]'))) {
+            if ($(document).find($('[data-slider-speed]'))) {
                 var imageTransitionTimeValue = $('[data-slider-speed]').attr('data-slider-speed');
                 imageTransitionTime = imageTransitionTimeValue;
             } else {
@@ -32,7 +32,7 @@
         }
 
         function getSliderDurationTime() {
-            if($(document).find($('[data-slider-duration]'))) {
+            if ($(document).find($('[data-slider-duration]'))) {
                 var animationDurationValue = $('[data-slider-duration]').attr('data-slider-duration');
                 animationDuration = animationDurationValue;
             } else {
@@ -42,7 +42,7 @@
         }
 
         function getSliderMobileMobileTime() {
-            if($(document).find($('[data-slider-mobile-duration]'))) {
+            if ($(document).find($('[data-slider-mobile-duration]'))) {
                 var animationMobileDurationValue = $('[data-slider-mobile-duration]').attr('data-slider-mobile-duration');
                 animationMobileDuration = animationMobileDurationValue;
             } else {
@@ -52,9 +52,9 @@
         }
 
         function getSliderPrevArrowElement() {
-            if($(document).find($('[data-slider-prev]')) && $('[data-slider-prev]').attr('data-slider-prev') == 'prev') {
+            if ($(document).find($('[data-slider-prev]')) && $('[data-slider-prev]').attr('data-slider-prev') == 'prev') {
                 var prevValue = $('[data-slider-prev]').attr('id');
-                var prev = $('#'+prevValue);
+                var prev = $('#' + prevValue);
             } else {
                 throw new Error("Error: data-slider-prev attribute not set on page");
             }
@@ -62,9 +62,9 @@
         }
 
         function getSliderNextArrowElement() {
-            if($(document).find($('[data-slider-next]')) && $('[data-slider-next]').attr('data-slider-next') == 'next') {
+            if ($(document).find($('[data-slider-next]')) && $('[data-slider-next]').attr('data-slider-next') == 'next') {
                 var nextValue = $('[data-slider-next]').attr('id');
-                var next = $('#'+nextValue);
+                var next = $('#' + nextValue);
             } else {
                 throw new Error("Error: data-slider-next attribute not set on page");
             }
@@ -99,7 +99,7 @@
         }
 
         function autoSlide() {
-            currentLeftValue = $("#slider").offset().left;
+            currentLeftValue = $slider.offset().left;
             if (currentLeftValue <= (-sliderWidth + imageWidth)) {
                 $slider.css("left", 0);
 
@@ -159,7 +159,7 @@
         }
 
         function moveOffsetLeft() {
-            currentLeftValue = $("#slider").offset().left;
+            currentLeftValue = $slider.offset().left;
             clearInterval(interval);
             if (currentLeftValue >= 0) {
                 sliderPrev = -sliderWidth + imageWidth;
@@ -181,7 +181,7 @@
         }
 
         function moveOffsetRight() {
-            currentLeftValue = $("#slider").offset().left;
+            currentLeftValue = $slider.offset().left;
             clearInterval(interval);
             if (currentLeftValue == (-sliderWidth + imageWidth)) {
                 $slider.css("left", "0px");
@@ -212,7 +212,7 @@
 
         $prev.click(function (e) { e.stopPropagation(); moveOffsetLeft(); });
         $next.click(function (e) { e.stopPropagation(); moveOffsetRight(); });
-        $sliderContainer.click(function (e) {e.stopPropagation(); navigationClick(e); });
+        $sliderContainer.click(function (e) { e.stopPropagation(); navigationClick(e); });
         interval = setInterval(autoSlide, imageTransitionTime);
 
         function resetImageSize() {
@@ -226,10 +226,10 @@
             clearInterval(interval);
             disableArrows();
             var sliding = startClientX = startPixelOffset = pixelOffset = currentSlide = 0;
-            slideCount = $('.sliderImg').length;
+            slideCount = $image.length;
             $slider.width(slideCount * imageWidthMobile);
             sliderWidth = slideCount * imageWidthMobile;
-            
+
             $sliderContainer.on('mousedown touchstart', mobileSlideStart);
             $sliderContainer.on('mouseup touchend', mobileSlideEnd);
             $sliderContainer.on('mousemove touchmove', mobileSlide);
@@ -237,7 +237,7 @@
             intervalMobile = setInterval(autoSlideMobile, imageTransitionTime);
 
             function autoSlideMobile() {
-                currentLeftValue = $("#slider").offset().left;
+                currentLeftValue = $slider.offset().left;
                 if (currentLeftValue <= (-sliderWidth + imageWidthMobile)) {
                     currentSlide = 0;
                     $slider.css("left", "0px");
