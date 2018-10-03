@@ -1,5 +1,5 @@
 (function () {
-    var ClassicSlider = function () {
+    var Slider = function () {
 
         function getSliderElement() {
             if ($(document).find($('[data-slider]')) && $('[data-slider]').attr('data-slider') == 'true') {
@@ -318,5 +318,5 @@
         }
         return SliderApi;
     }();
-    window.ClassicSlider = ClassicSlider;
+    window.Slider = Slider;
 }());
