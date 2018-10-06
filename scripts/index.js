@@ -1,111 +1,130 @@
 (function () {
     var Slider = function () {
-
-        function getSliderElement() {
-            if ($(document).find($('[data-slider]')) && $('[data-slider]').attr('data-slider') == 'true') {
-                var sliderId = $('[data-slider]').attr('id');
-                var slider = $('#' + sliderId);
-            } else {
-                throw new Error("Error: data-slider attribute not set on page");
-            }
-            return slider;
-        }
-
-        function getSliderContainerElement() {
-            if ($(document).find($('[data-slider-container]')) && $('[data-slider-container]').attr('data-slider-container') == 'true') {
-                var containerId = $('[data-slider-container]').attr('id');
-                var sliderContainer = $('#' + containerId);
-            } else {
-                throw new Error("Error: data-slider-container attribute not set on page");
-            }
-            return sliderContainer;
-        }
-
-        function getSliderTransitionTime() {
-            if ($(document).find($('[data-slider-speed]'))) {
-                var imageTransitionTimeValue = $('[data-slider-speed]').attr('data-slider-speed');
-                imageTransitionTime = imageTransitionTimeValue;
-            } else {
-                imageTransitionTime = 5000;
-            }
-            return imageTransitionTime;
-        }
-
-        function getSliderDurationTime() {
-            if ($(document).find($('[data-slider-duration]'))) {
-                var animationDurationValue = $('[data-slider-duration]').attr('data-slider-duration');
-                animationDuration = animationDurationValue;
-            } else {
-                animationDuration = 1000;
-            }
-            return animationDuration;
-        }
-
-        function getSliderMobileMobileTime() {
-            if ($(document).find($('[data-slider-mobile-duration]'))) {
-                var animationMobileDurationValue = $('[data-slider-mobile-duration]').attr('data-slider-mobile-duration');
-                animationMobileDuration = animationMobileDurationValue;
-            } else {
-                animationMobileDuration = 5000;
-            }
-            return animationMobileDuration;
-        }
-
-        function getSliderPrevArrowElement() {
-            if ($(document).find($('[data-slider-prev]')) && $('[data-slider-prev]').attr('data-slider-prev') == 'prev') {
-                var prevValue = $('[data-slider-prev]').attr('id');
-                var prev = $('#' + prevValue);
-            } else {
-                throw new Error("Error: data-slider-prev attribute not set on page");
-            }
-            return prev;
-        }
-
-        function getSliderNextArrowElement() {
-            if ($(document).find($('[data-slider-next]')) && $('[data-slider-next]').attr('data-slider-next') == 'next') {
-                var nextValue = $('[data-slider-next]').attr('id');
-                var next = $('#' + nextValue);
-            } else {
-                throw new Error("Error: data-slider-next attribute not set on page");
-            }
-            return next;
-        }
-
-        var $slider = getSliderElement();
-        var $sliderContainer = getSliderContainerElement();
-        var imageTransitionTime = getSliderTransitionTime();
-        var animationDuration = getSliderDurationTime();
-        var animationDurationMobile = getSliderMobileMobileTime();
-        var $prev = getSliderPrevArrowElement();
-        var $next = getSliderNextArrowElement();
-        var $image = getSliderElement().children();
+        var $slider;
+        var $sliderContainer;
+        var $prev;
+        var $next;
+        var $images;
+        var sliderChildren;
+        var imageTransitionTime;
+        var animationDuration;
+        var animationDurationMobile;
         var interval = null;
         var intervalMobile = null;
         var nextLeftOffset = 0;
         var sliderNext = 0;
         var sliderPrev = 0;
         var currentLeftValue = 0;
-        var imageWidth = $sliderContainer.width();
-        var imageWidthMobile = imageWidth;
-        var sliderChildren = $($slider).children();
-        var sliderChildrenLength = $($slider).children().length;
-        var sliderWidth = imageWidth * sliderChildrenLength;
-        $slider.width(sliderWidth);
+        var sliding = 0;
+        var startClientX = 0;
+        var startPixelOffset = 0;
+        var pixelOffset = 0;
+        var currentSlide = 0;
+        var sliderContainerWidth;
+        var sliderContainerWidthMobile;
+        var sliderChildrenLength;
+        var sliderWidth;
+        var menuIcon = document.querySelector('.menu-icon');
+        const menuSlider = document.querySelector('.slide-menu');
 
-        var initSlider = function () {
-            sliderNavigation(sliderChildren);
-            bulletsNavigation(sliderChildren);
-            resetImageSize();
+        function getElements() {
+            $slider = getSliderElement();
+            $images = getSliderElement().children();
+            $sliderContainer = getSliderContainerElement();
+            $prev = getSliderPrevArrowElement();
+            $next = getSliderNextArrowElement();
+            sliderChildren = $slider.children();
+            sliderChildrenLength = sliderChildren.length;
+        }
+
+        function getSliderOptions() {
+            imageTransitionTime = getSliderTransitionTime();
+            animationDuration = getSliderDurationTime();
+            animationDurationTime = getSliderMobileMobileTime();
+        }
+
+        function getSliderDimensions() {
+            sliderContainerWidth = $sliderContainer.width();
+            sliderWidth = sliderContainerWidth * sliderChildrenLength;
+            sliderContainerWidthMobile = sliderContainerWidth;
+        }
+
+        function getSliderElement() {
+            var $slider = $('[data-slider]');
+            if (!$slider.length) {
+                throw new Error('Error: data-slider attribute not set on page');
+            }
+            return $('.' + $slider.attr('class'));
+        }
+
+        function getSliderContainerElement() {
+            var $sliderContainer = $('[data-slider-container]');
+            if (!$sliderContainer.length) {
+                throw new Error("Error: data-slider-container attribute not set on page");
+            }
+            return $('.' + $sliderContainer.attr('class'));
+        }
+
+        function getSliderTransitionTime() {
+            var $sliderSpeed = $('[data-slider-speed]');
+            if (!$sliderSpeed.length) {
+                imageTransitionTime = 5000;
+            } else {
+                imageTransitionTime = $sliderSpeed.attr('data-slider-speed');
+            }
+            return imageTransitionTime;
+        }
+
+        function getSliderDurationTime() {
+            var $sliderDuration = $('[data-slider-duration]');
+            if (!$sliderDuration.length) {
+                animationDuration = 1000;
+            } else {
+                animationDuration = $sliderDuration.attr('data-slider-duration');
+            }
+            return animationDuration;
+        }
+
+        function getSliderMobileMobileTime() {
+            var $sliderMobileDuration = $('[data-slider-mobile-duration]');
+            if (!$sliderMobileDuration.length) {
+                animationMobileDuration = 5000;
+            } else {
+                animationMobileDuration = $sliderMobileDuration.attr('data-slider-mobile-duration');
+            }
+            return animationMobileDuration;
+        }
+
+        function getSliderPrevArrowElement() {
+            var $sliderPrev = $('[data-slider-prev]');
+            if (!$sliderPrev.length) {
+                throw new Error("Error: data-slider-prev attribute not set on page");
+            }
+            return $('.' + $sliderPrev.attr('class'));
+        }
+
+        function getSliderNextArrowElement() {
+            var $sliderNext = $('[data-slider-next]');
+            if (!$sliderNext.length) {
+                throw new Error("Error: data-slider-next attribute not set on page");
+            }
+            return $('.' + $sliderNext.attr('class'));
+        }
+
+        function addClassOnMenuIcon() {
+            menuSlider.classList.toggle("open");
         }
 
         function autoSlide() {
             currentLeftValue = $slider.offset().left;
-            if (currentLeftValue <= (-sliderWidth + imageWidth)) {
-                $slider.css("left", 0);
 
+            if (currentLeftValue <= (sliderContainerWidth - sliderWidth)) {
+                $slider.css('left', 0);
             } else {
-                nextLeftOffset = currentLeftValue - imageWidth;
-                $slider.animate({ "left": + nextLeftOffset + "px" }, {
+                nextLeftOffset = currentLeftValue - sliderContainerWidth;
+                $slider.animate({
+                    'left': nextLeftOffset + 'px'
+                }, {
                     duration: animationDuration,
                     start: function () {
                         disableArrows();
@@ -119,10 +138,10 @@
 
         function sliderNavigation(navigationImages) {
             var sliderNavigation = $('<div></div>');
-            sliderNavigation.attr('id', 'slider-navigation');
-            $sliderContainer.append(sliderNavigation);
             var sliderNavigationContainer = $('<div></div>');
-            sliderNavigationContainer.attr('id', 'slider-navigation-container');
+            sliderNavigation.attr('class', 'slider-navigation');
+            $sliderContainer.append(sliderNavigation);
+            sliderNavigationContainer.attr('class', 'slider-navigation-container');
             $(sliderNavigation).append(sliderNavigationContainer);
             navigationImages.each(function (index) {
                 var temp = $(this).clone();
@@ -133,12 +152,12 @@
             });
         }
 
-        function bulletsNavigation(navigationImages) {
+        function bulletsNavigationSliding(navigationImages) {
             var sliderBulletsNavigation = $('<div></div>');
-            sliderBulletsNavigation.attr('id', 'bullets-navigation');
-            $sliderContainer.append(sliderBulletsNavigation);
             var sliderBulletsContainer = $('<div></div>');
-            sliderBulletsContainer.attr('id', 'slider-bullets');
+            sliderBulletsNavigation.attr('class', 'bullets-navigation');
+            $sliderContainer.append(sliderBulletsNavigation);
+            sliderBulletsContainer.attr('class', 'slider-bullets');
             $(sliderBulletsNavigation).append(sliderBulletsContainer);
             navigationImages.each(function (index) {
                 var tempBullet = $('<div></div>');
@@ -162,11 +181,13 @@
             currentLeftValue = $slider.offset().left;
             clearInterval(interval);
             if (currentLeftValue >= 0) {
-                sliderPrev = -sliderWidth + imageWidth;
+                sliderPrev = -sliderWidth + sliderContainerWidth;
                 $slider.css("left", sliderPrev + "px");
             } else {
-                sliderPrev = currentLeftValue + imageWidth;
-                $slider.animate({ "left": + sliderPrev + "px" }, {
+                sliderPrev = currentLeftValue + sliderContainerWidth;
+                $slider.animate({
+                    "left": +sliderPrev + "px"
+                }, {
                     duration: animationDuration,
                     start: function () {
                         disableArrows();
@@ -183,11 +204,13 @@
         function moveOffsetRight() {
             currentLeftValue = $slider.offset().left;
             clearInterval(interval);
-            if (currentLeftValue == (-sliderWidth + imageWidth)) {
+            if (currentLeftValue == (-sliderWidth + sliderContainerWidth)) {
                 $slider.css("left", "0px");
             } else {
-                sliderNext = currentLeftValue - imageWidth;
-                $slider.animate({ "left": + sliderNext + "px" }, {
+                sliderNext = currentLeftValue - sliderContainerWidth;
+                $slider.animate({
+                    "left": +sliderNext + "px"
+                }, {
                     duration: animationDuration,
                     start: function () {
                         disableArrows();
@@ -205,118 +228,157 @@
             if (e.target.className === 'sliderNavigationImage') {
                 clearInterval(interval);
                 var moveSliderTo = $(e.target).data('index');
-                $slider.css("left", -(imageWidth * moveSliderTo) + "px");
+                $slider.css("left", -(sliderContainerWidth * moveSliderTo) + "px");
                 interval = setInterval(autoSlide, imageTransitionTime);
             }
         }
 
-        $prev.click(function (e) { e.stopPropagation(); moveOffsetLeft(); });
-        $next.click(function (e) { e.stopPropagation(); moveOffsetRight(); });
-        $sliderContainer.click(function (e) { e.stopPropagation(); navigationClick(e); });
-        interval = setInterval(autoSlide, imageTransitionTime);
-
         function resetImageSize() {
-            $image.each(function () {
-                $(this).width(imageWidthMobile);
+            $images.each(function () {
+                $(this).width(sliderContainerWidthMobile);
             });
         }
 
-        if ($(document).width() < 750) {
-            resetImageSize();
-            clearInterval(interval);
-            disableArrows();
-            var sliding = startClientX = startPixelOffset = pixelOffset = currentSlide = 0;
-            slideCount = $image.length;
-            $slider.width(slideCount * imageWidthMobile);
-            sliderWidth = slideCount * imageWidthMobile;
+        function initEvents() {
+            $prev.click(function (e) {
+                e.stopPropagation();
+                moveOffsetLeft();
+            });
 
+            $next.click(function (e) {
+                e.stopPropagation();
+                moveOffsetRight();
+            });
+
+            $sliderContainer.click(function (e) {
+                e.stopPropagation();
+                navigationClick(e);
+            });
+
+            menuIcon.addEventListener('click', addClassOnMenuIcon);
+        }
+
+        function autoSlideMobile() {
+            currentLeftValue = $slider.offset().left;
+            if (currentLeftValue <= (-sliderWidth + sliderContainerWidthMobile)) {
+                currentSlide = 0;
+                $slider.css("left", "0px");
+                checkBulletsPosition(currentSlide);
+            } else {
+                currentSlide += 1;
+                nextLeftOffset = currentLeftValue - sliderContainerWidthMobile;
+                $slider.animate({
+                    "left": +nextLeftOffset + "px"
+                }, animationDurationMobile);
+                checkBulletsPosition(currentSlide);
+            }
+        };
+
+        function navigateMobileImages(e) {
+            if (e.target.className === 'round-bullet-navigation') {
+                clearInterval(intervalMobile);
+                var moveSliderTo = $(e.target).data('bullet-index');
+                $(e.target).siblings().removeClass('active-bullet');
+                $(e.target).addClass('active-bullet');
+                $slider.animate({
+                    "left": + -(sliderContainerWidthMobile * moveSliderTo) + "px"
+                }, animationDurationMobile);
+                interval = setInterval(autoSlideMobile, imageTransitionTime);
+            }
+            currentSlide = $('.active-bullet').data('bullet-index');
+        }
+
+        function mobileSlideStart(event) {
+            clearInterval(intervalMobile);
+            if (event.originalEvent.touches)
+                event = event.originalEvent.touches[0];
+            if (sliding == 0) {
+                sliding = 1;
+                startClientX = event.clientX;
+            }
+        }
+
+        function mobileSliding(event) {
+            clearInterval(interval);
+            event.preventDefault();
+            if (event.originalEvent.touches)
+                event = event.originalEvent.touches[0];
+            var deltaSlide = event.clientX - startClientX;
+            if (sliding == 1 && deltaSlide != 0) {
+                sliding = 2;
+                startPixelOffset = pixelOffset;
+            }
+
+            if (sliding == 2) {
+                var touchPixelRatio = 1;
+                if ((currentSlide == 0 && event.clientX > startClientX) ||
+                    (currentSlide == slideCount - 1 && event.clientX < startClientX))
+                    touchPixelRatio = 3;
+                pixelOffset = startPixelOffset + deltaSlide / touchPixelRatio;
+            }
+        }
+
+        function checkBulletsPosition(position) {
+            var bulletTruePosition = $("[data-bullet-index='" + position + "']");
+            if (position != $('.active-bullet').data('bullet-index')) {
+                bulletTruePosition.siblings().removeClass('active-bullet');
+                bulletTruePosition.addClass('active-bullet');
+            }
+        }
+
+        function mobileSlideEnd() {
+            clearInterval(interval);
+            if (sliding == 2) {
+                sliding = 0;
+                currentSlide = pixelOffset < startPixelOffset ? currentSlide + 1 : currentSlide - 1;
+                currentSlide = Math.min(Math.max(currentSlide, 0), slideCount - 1);
+                pixelOffset = currentSlide * -$sliderContainer.width();
+                $slider.animate({
+                    "left": +pixelOffset + "px"
+                }, animationDurationMobile);
+                checkBulletsPosition(currentSlide);
+            }
+            intervalMobile = setInterval(autoSlideMobile, imageTransitionTime);
+        }
+
+        function initMobileEvents() {
             $sliderContainer.on('mousedown touchstart', mobileSlideStart);
             $sliderContainer.on('mouseup touchend', mobileSlideEnd);
-            $sliderContainer.on('mousemove touchmove', mobileSlide);
-            $sliderContainer.click(function (e) { navigateMobileImages(e) });
-            intervalMobile = setInterval(autoSlideMobile, imageTransitionTime);
+            $sliderContainer.on('mousemove touchmove', mobileSliding);
+            $sliderContainer.click(function (e) {
+                navigateMobileImages(e)
+            });
+        }
 
-            function autoSlideMobile() {
-                currentLeftValue = $slider.offset().left;
-                if (currentLeftValue <= (-sliderWidth + imageWidthMobile)) {
-                    currentSlide = 0;
-                    $slider.css("left", "0px");
-                    checkBulletsPosition(currentSlide);
-                } else {
-                    currentSlide += 1;
-                    nextLeftOffset = currentLeftValue - imageWidthMobile;
-                    $slider.animate({ "left": + nextLeftOffset + "px" }, animationDurationMobile);
-                    checkBulletsPosition(currentSlide);
-                }
-            };
+        function init() {
+            getElements();
+            getSliderOptions();
+            getSliderDimensions();
 
-            function navigateMobileImages(e) {
-                if (e.target.className === 'round-bullet-navigation') {
-                    clearInterval(intervalMobile);
-                    var moveSliderTo = $(e.target).data('bullet-index');
-                    $(e.target).siblings().removeClass('active-bullet');
-                    $(e.target).addClass('active-bullet');
-                    $slider.animate({ "left": + -(imageWidthMobile * moveSliderTo) + "px" }, animationDurationMobile);
-                    interval = setInterval(autoSlideMobile, imageTransitionTime);
-                }
-                currentSlide = $('.active-bullet').data('bullet-index');
-            }
+            $slider.width(sliderWidth);
 
-            function mobileSlideStart(event) {
-                clearInterval(intervalMobile);
-                if (event.originalEvent.touches)
-                    event = event.originalEvent.touches[0];
-                if (sliding == 0) {
-                    sliding = 1;
-                    startClientX = event.clientX;
-                }
-            }
+            initEvents();
 
-            function mobileSlide(event) {
-                clearInterval(interval);
-                event.preventDefault();
-                if (event.originalEvent.touches)
-                    event = event.originalEvent.touches[0];
-                var deltaSlide = event.clientX - startClientX;
-                if (sliding == 1 && deltaSlide != 0) {
-                    sliding = 2;
-                    startPixelOffset = pixelOffset;
-                }
+            sliderNavigation(sliderChildren);
+            bulletsNavigationSliding(sliderChildren);
+            resetImageSize();
 
-                if (sliding == 2) {
-                    var touchPixelRatio = 1;
-                    if ((currentSlide == 0 && event.clientX > startClientX) ||
-                        (currentSlide == slideCount - 1 && event.clientX < startClientX))
-                        touchPixelRatio = 3;
-                    pixelOffset = startPixelOffset + deltaSlide / touchPixelRatio;
-                }
-            }
+            interval = setInterval(autoSlide, imageTransitionTime);
 
-            function checkBulletsPosition(position) {
-                var bulletTruePosition = $("[data-bullet-index='" + position + "']");
-                if (position != $('.active-bullet').data('bullet-index')) {
-                    bulletTruePosition.siblings().removeClass('active-bullet');
-                    bulletTruePosition.addClass('active-bullet');
-                }
-            }
-
-            function mobileSlideEnd() {
-                clearInterval(interval);
-                if (sliding == 2) {
-                    sliding = 0;
-                    currentSlide = pixelOffset < startPixelOffset ? currentSlide + 1 : currentSlide - 1;
-                    currentSlide = Math.min(Math.max(currentSlide, 0), slideCount - 1);
-                    pixelOffset = currentSlide * -$sliderContainer.width();
-                    $slider.animate({ "left": + pixelOffset + "px" }, animationDurationMobile);
-                    checkBulletsPosition(currentSlide);
-                }
+            if ($(document).width() < 750) {
+                disableArrows();
+                slideCount = $images.length;
+                initMobileEvents();
                 intervalMobile = setInterval(autoSlideMobile, imageTransitionTime);
             }
         }
+
         var SliderApi = {
-            initSlider: initSlider
+            init: init
         }
+
         return SliderApi;
     }();
+
     window.Slider = Slider;
 }());
