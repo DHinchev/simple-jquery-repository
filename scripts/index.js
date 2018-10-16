@@ -152,7 +152,7 @@
             });
         }
 
-        function bulletsNavigationSliding(navigationImages) {
+        function createSliderBulletsNavigation(navigationImages) {
             var sliderBulletsNavigation = $('<div></div>');
             var sliderBulletsContainer = $('<div></div>');
             sliderBulletsNavigation.attr('class', 'bullets-navigation');
@@ -359,7 +359,7 @@
             $slider.width(sliderWidth);
 
             createSliderNavigation(sliderChildren);
-            bulletsNavigationSliding(sliderChildren);
+            createSliderBulletsNavigation(sliderChildren);
             resetImageSize();
 
             interval = setInterval(autoSlide, imageTransitionTime);
