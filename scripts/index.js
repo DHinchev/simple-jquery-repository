@@ -116,22 +116,22 @@
         function autoSlide() {
             currentLeftValue = $slider.offset().left;
             var hasLastSlideHasBeenReached = currentLeftValue <= (sliderContainerWidth - sliderWidth);
-            if (hasLastSlideHasBeenReached) {
-                $slider.css('left', 0);
-            } else {
-                nextLeftOffset = currentLeftValue - sliderContainerWidth;
-                $slider.animate({
-                    'left': nextLeftOffset + 'px'
-                }, {
-                    duration: animationDuration,
-                    start: function () {
-                        disableArrows();
-                    },
-                    complete: function () {
-                        enableArrows();
-                    }
-                });
-            }
+                if (hasLastSlideHasBeenReached) {
+                    $slider.css('left', 0);
+                } else {
+                    nextLeftOffset = currentLeftValue - sliderContainerWidth;
+                    $slider.animate({
+                        'left': nextLeftOffset + 'px'
+                    }, {
+                        duration: animationDuration,
+                        start: function () {
+                            disableArrows();
+                        },
+                        complete: function () {
+                            enableArrows();
+                        }
+                    });
+                }
         };
 
         function createSliderNavigation(navigationImages) {
@@ -161,14 +161,14 @@
             });
         }
 
-        var disableArrows = function () {
-            $prev.addClass('active');
-            $next.addClass('active');
+        function disableArrows() {
+            $prev.addClass('disable');
+            $next.addClass('disable');
         }
 
-        var enableArrows = function () {
-            $prev.removeClass('active');
-            $next.removeClass('active');
+        function enableArrows() {
+            $prev.removeClass('disable');
+            $next.removeClass('disable');
         }
 
         function moveOffsetLeft() {

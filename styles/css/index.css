@@ -74,10 +74,10 @@
   height: 100vh;
 }
 
-.prev.active,
-.next.active,
-.prev.active:hover,
-.next.active:hover {
+.prev.disable,
+.next.disable,
+.prev.disable:hover,
+.next.disable:hover {
   pointer-events: none;
 }
 
