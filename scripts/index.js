@@ -136,30 +136,31 @@
             }
         };
 
-        function sliderNavigation(navigationImages) {
-            var sliderNavigation = $('<div></div>');
+        function sliderNavigation(createNavigationImages) {
+            var $sliderNavigation = $('<div></div>');
             var sliderNavigationContainer = $('<div></div>');
-            sliderNavigation.attr('class', 'slider-navigation');
-            $sliderContainer.append(sliderNavigation);
-            sliderNavigationContainer.attr('class', 'slider-navigation-container');
-            $(sliderNavigation).append(sliderNavigationContainer);
-            navigationImages.each(function (index) {
+
+            $sliderNavigation.addClass('slider-navigation');
+            sliderNavigationContainer.addClass('slider-navigation-container');
+            $sliderNavigation.append(sliderNavigationContainer);
+            $sliderContainer.append($sliderNavigation);
+            createNavigationImages.each(function (index) {
                 var temp = $(this).clone();
-                temp.addClass('sliderNavigationImage');
-                temp.removeClass('sliderImg');
-                temp.attr("data-index", index);
-                $(sliderNavigationContainer).append(temp);
+                temp.addClass('slider-navigation-image');
+                temp.removeClass('slider-img');
+                temp.attr('data-index', index);
+                sliderNavigationContainer.append(temp);
             });
         }
 
-        function bulletsNavigationSliding(navigationImages) {
+        function bulletsNavigationSliding(createNavigationImages) {
             var sliderBulletsNavigation = $('<div></div>');
             var sliderBulletsContainer = $('<div></div>');
             sliderBulletsNavigation.attr('class', 'bullets-navigation');
             $sliderContainer.append(sliderBulletsNavigation);
             sliderBulletsContainer.attr('class', 'slider-bullets');
             $(sliderBulletsNavigation).append(sliderBulletsContainer);
-            navigationImages.each(function (index) {
+            createNavigationImages.each(function (index) {
                 var tempBullet = $('<div></div>');
                 tempBullet.addClass('round-bullet-navigation');
                 tempBullet.attr("data-bullet-index", index);
@@ -225,7 +226,7 @@
         }
 
         function navigationClick(e) {
-            if (e.target.className === 'sliderNavigationImage') {
+            if (e.target.className === 'slider-navigation-image') {
                 clearInterval(interval);
                 var moveSliderTo = $(e.target).data('index');
                 $slider.css("left", -(sliderContainerWidth * moveSliderTo) + "px");
@@ -262,13 +263,13 @@
             currentLeftValue = $slider.offset().left;
             if (currentLeftValue <= (-sliderWidth + sliderContainerWidthMobile)) {
                 currentSlide = 0;
-                $slider.css("left", "0px");
+                $slider.css('left', '0px');
                 checkBulletsPosition(currentSlide);
             } else {
                 currentSlide += 1;
                 nextLeftOffset = currentLeftValue - sliderContainerWidthMobile;
                 $slider.animate({
-                    "left": +nextLeftOffset + "px"
+                    'left': +nextLeftOffset + 'px'
                 }, animationDurationMobile);
                 checkBulletsPosition(currentSlide);
             }
@@ -281,7 +282,7 @@
                 $(e.target).siblings().removeClass('active-bullet');
                 $(e.target).addClass('active-bullet');
                 $slider.animate({
-                    "left": + -(sliderContainerWidthMobile * moveSliderTo) + "px"
+                    'left': + -(sliderContainerWidthMobile * moveSliderTo) + 'px'
                 }, animationDurationMobile);
                 interval = setInterval(autoSlideMobile, imageTransitionTime);
             }
@@ -355,9 +356,8 @@
             getSliderOptions();
             getSliderDimensions();
 
-            $slider.width(sliderWidth);
-
             initEvents();
+            $slider.width(sliderWidth);
 
             sliderNavigation(sliderChildren);
             bulletsNavigationSliding(sliderChildren);

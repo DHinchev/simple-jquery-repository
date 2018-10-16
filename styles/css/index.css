@@ -134,7 +134,7 @@
   justify-content: center;
 }
 
-.sliderNavigationImage {
+.slider-navigation-image {
   margin: 10px;
   height: 70px;
   display: flex;
@@ -142,7 +142,7 @@
 }
 
 .slider-navigation,
-.sliderNavigationImage {
+.slider-navigation-image {
   user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -150,7 +150,7 @@
   -o-user-select: none;
 }
 
-.sliderNavigationImage {
+.slider-navigation-image {
   width: 100px;
 }
 
