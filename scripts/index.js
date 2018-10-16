@@ -136,7 +136,7 @@
             }
         };
 
-        function sliderNavigation(createNavigationImages) {
+        function createSliderNavigation(navigationImages) {
             var $sliderNavigation = $('<div></div>');
             var sliderNavigationContainer = $('<div></div>');
 
@@ -144,22 +144,22 @@
             sliderNavigationContainer.addClass('slider-navigation-container');
             $sliderNavigation.append(sliderNavigationContainer);
             $sliderContainer.append($sliderNavigation);
-            createNavigationImages.each(function (index) {
-                var imgClone = $(this).clone();
-                imgClone.removeClass('slider-img').addClass('slider-navigation-image');
-                imgClone.data('index', index);
-                sliderNavigationContainer.append(imgClone);
+            navigationImages.each(function (index) {
+                var $imgClone = $(this).clone();
+                $imgClone.removeClass('slider-img').addClass('slider-navigation-image');
+                $imgClone.data('index', index);
+                sliderNavigationContainer.append($imgClone);
             });
         }
 
-        function bulletsNavigationSliding(createNavigationImages) {
+        function bulletsNavigationSliding(navigationImages) {
             var sliderBulletsNavigation = $('<div></div>');
             var sliderBulletsContainer = $('<div></div>');
             sliderBulletsNavigation.attr('class', 'bullets-navigation');
             $sliderContainer.append(sliderBulletsNavigation);
             sliderBulletsContainer.attr('class', 'slider-bullets');
             $(sliderBulletsNavigation).append(sliderBulletsContainer);
-            createNavigationImages.each(function (index) {
+            navigationImages.each(function (index) {
                 var tempBullet = $('<div></div>');
                 tempBullet.addClass('round-bullet-navigation');
                 tempBullet.attr("data-bullet-index", index);
@@ -358,7 +358,7 @@
             initEvents();
             $slider.width(sliderWidth);
 
-            sliderNavigation(sliderChildren);
+            createSliderNavigation(sliderChildren);
             bulletsNavigationSliding(sliderChildren);
             resetImageSize();
 
