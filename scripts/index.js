@@ -172,9 +172,10 @@
         }
 
         function moveOffsetLeft() {
-            currentLeftValue = $slider.offset().left;
             clearInterval(interval);
-            if (currentLeftValue >= 0) {
+            currentLeftValue = $slider.offset().left;
+            var checkIfImageIsNotTheFirst = currentLeftValue >= 0;
+            if (checkIfImageIsNotTheFirst) {
                 sliderPrev = -sliderWidth + sliderContainerWidth;
                 $slider.css('left', sliderPrev + 'px');
             } else {
@@ -192,9 +193,10 @@
         }
 
         function moveOffsetRight() {
-            currentLeftValue = $slider.offset().left;
             clearInterval(interval);
-            if (currentLeftValue == (-sliderWidth + sliderContainerWidth)) {
+            currentLeftValue = $slider.offset().left;
+            var checkIfImageIsNotTheLast = currentLeftValue == (-sliderWidth + sliderContainerWidth);
+            if (checkIfImageIsNotTheLast) {
                 $slider.css('left', '0px');
             } else {
                 sliderNext = currentLeftValue - sliderContainerWidth;
