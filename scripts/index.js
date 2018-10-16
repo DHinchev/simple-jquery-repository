@@ -6,7 +6,7 @@
         var $next;
         var $images;
         var sliderChildren;
-        var imageTransitionTime;
+        var sliderTransitionSpeed;
         var animationDuration;
         var animationDurationMobile;
         var interval = null;
@@ -37,7 +37,7 @@
         }
 
         function getSliderOptions() {
-            imageTransitionTime = getSliderTransitionTime();
+            sliderTransitionSpeed = getSliderTransitionSpeed();
             animationDuration = getSliderDurationTime();
             animationDurationTime = getSliderMobileMobileTime();
         }
@@ -63,14 +63,14 @@
             return $('.' + $sliderContainer.attr('class'));
         }
 
-        function getSliderTransitionTime() {
+        function getSliderTransitionSpeed() {
             var $sliderSpeed = $('[data-slider-speed]');
             if (!$sliderSpeed.length) {
-                imageTransitionTime = 5000;
+                sliderTransitionSpeed = 5000;
             } else {
-                imageTransitionTime = $sliderSpeed.attr('data-slider-speed');
+                sliderTransitionSpeed = $sliderSpeed.attr('data-slider-speed');
             }
-            return imageTransitionTime;
+            return sliderTransitionSpeed;
         }
 
         function getSliderDurationTime() {
@@ -190,9 +190,9 @@
                         enableArrows()
                     }
                 });
-                setInterval(interval, imageTransitionTime);
+                setInterval(interval, sliderTransitionSpeed);
             }
-            interval = setInterval(autoSlide, imageTransitionTime);
+            interval = setInterval(autoSlide, sliderTransitionSpeed);
         }
 
         function moveOffsetRight() {
@@ -213,9 +213,9 @@
                         enableArrows()
                     }
                 });
-                setInterval(interval, imageTransitionTime);
+                setInterval(interval, sliderTransitionSpeed);
             }
-            interval = setInterval(autoSlide, imageTransitionTime);
+            interval = setInterval(autoSlide, sliderTransitionSpeed);
         }
 
         function navigationClick(e) {
@@ -277,7 +277,7 @@
                 $slider.animate({
                     'left': + -(sliderContainerWidth * moveSliderTo) + 'px'
                 }, animationDurationMobile);
-                interval = setInterval(autoSlideMobile, imageTransitionTime);
+                interval = setInterval(autoSlideMobile, sliderTransitionSpeed);
             }
             currentSlide = $('.active-bullet').data('bullet-index');
         }
@@ -332,7 +332,7 @@
                 }, animationDurationMobile);
                 checkBulletsPosition(currentSlide);
             }
-            intervalMobile = setInterval(autoSlideMobile, imageTransitionTime);
+            intervalMobile = setInterval(autoSlideMobile, sliderTransitionSpeed);
         }
 
         function initMobileEvents() {
@@ -356,13 +356,13 @@
             createSliderBulletsNavigation(sliderChildren);
             restrictImageSizeToSliderContainer();
 
-            interval = setInterval(autoSlide, imageTransitionTime);
+            interval = setInterval(autoSlide, sliderTransitionSpeed);
 
             if ($(document).width() < 750) {
                 disableArrows();
                 slideCount = $images.length;
                 initMobileEvents();
-                intervalMobile = setInterval(autoSlideMobile, imageTransitionTime);
+                intervalMobile = setInterval(autoSlideMobile, sliderTransitionSpeed);
             }
         }
 
