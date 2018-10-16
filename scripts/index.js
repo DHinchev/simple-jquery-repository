@@ -180,15 +180,11 @@
             } else {
                 sliderPrev = currentLeftValue + sliderContainerWidth;
                 $slider.animate({
-                    'left': +sliderPrev + 'px'
+                    'left': sliderPrev + 'px'
                 }, {
                     duration: animationDuration,
-                    start: function () {
-                        disableArrows();
-                    },
-                    complete: function () {
-                        enableArrows()
-                    }
+                    start: disableArrows,
+                    complete: enableArrows
                 });
                 setInterval(interval, sliderTransitionSpeed);
             }
@@ -203,15 +199,11 @@
             } else {
                 sliderNext = currentLeftValue - sliderContainerWidth;
                 $slider.animate({
-                    'left': +sliderNext + 'px'
+                    'left': sliderNext + 'px'
                 }, {
                     duration: animationDuration,
-                    start: function () {
-                        disableArrows();
-                    },
-                    complete: function () {
-                        enableArrows()
-                    }
+                    start: disableArrows,
+                    complete: enableArrows
                 });
                 setInterval(interval, sliderTransitionSpeed);
             }
