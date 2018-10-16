@@ -171,11 +171,11 @@
             $next.removeClass('disable');
         }
 
-        function moveOffsetLeft() {
+        function slideToPrevious() {
             clearInterval(interval);
             currentLeftValue = $slider.offset().left;
-            var checkIfImageIsNotTheFirst = currentLeftValue >= 0;
-            if (checkIfImageIsNotTheFirst) {
+            var canMoveToLeft = currentLeftValue >= 0;
+            if (canMoveToLeft) {
                 sliderPrev = sliderContainerWidth - sliderWidth;
                 $slider.css('left', sliderPrev + 'px');
             } else {
@@ -192,11 +192,11 @@
             interval = setInterval(autoSlide, sliderTransitionSpeed);
         }
 
-        function moveOffsetRight() {
+        function slideToNext() {
             clearInterval(interval);
             currentLeftValue = $slider.offset().left;
-            var checkIfImageIsNotTheLast = currentLeftValue == (sliderContainerWidth - sliderWidth);
-            if (checkIfImageIsNotTheLast) {
+            var canMoveToRight = currentLeftValue === (sliderContainerWidth - sliderWidth);
+            if (canMoveToRight) {
                 $slider.css('left', '0px');
             } else {
                 sliderNext = currentLeftValue - sliderContainerWidth;
@@ -230,12 +230,12 @@
         function initEvents() {
             $prev.click(function (e) {
                 e.stopPropagation();
-                moveOffsetLeft();
+                slideToPrevious();
             });
 
             $next.click(function (e) {
                 e.stopPropagation();
-                moveOffsetRight();
+                slideToNext();
             });
 
             $sliderContainer.click(function (e) {
