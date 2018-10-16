@@ -153,17 +153,17 @@
         }
 
         function createSliderBulletsNavigation(navigationImages) {
-            var sliderBulletsNavigation = $('<div></div>');
-            var sliderBulletsContainer = $('<div></div>');
-            sliderBulletsNavigation.attr('class', 'bullets-navigation');
-            $sliderContainer.append(sliderBulletsNavigation);
-            sliderBulletsContainer.attr('class', 'slider-bullets');
-            $(sliderBulletsNavigation).append(sliderBulletsContainer);
+            var $sliderBulletsNavigation = $('<div></div>');
+            var $sliderBulletsContainer = $('<div></div>');
+            $sliderBulletsNavigation.addClass('bullets-navigation');
+            $sliderContainer.append($sliderBulletsNavigation);
+            $sliderBulletsContainer.addClass('slider-bullets');
+            $sliderBulletsNavigation.append($sliderBulletsContainer);
             navigationImages.each(function (index) {
-                var tempBullet = $('<div></div>');
-                tempBullet.addClass('round-bullet-navigation');
-                tempBullet.attr("data-bullet-index", index);
-                $(sliderBulletsContainer).append(tempBullet);
+                var $tempBullet = $('<div></div>');
+                $tempBullet.addClass('round-bullet-navigation');
+                $tempBullet.data('bullet-index', index);
+                $sliderBulletsContainer.append($tempBullet);
             });
         }
 
