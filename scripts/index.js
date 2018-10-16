@@ -23,8 +23,15 @@
         var sliderContainerWidth;
         var sliderChildrenLength;
         var sliderWidth;
+        
         var menuIcon = document.querySelector('.menu-icon');
         const menuSlider = document.querySelector('.slide-menu');
+
+        var animationProperties = {
+            duration: animationDuration,
+            start: disableArrows,
+            complete: enableArrows
+        };
 
         function getElements() {
             $slider = getSliderElement();
@@ -122,15 +129,7 @@
                     nextLeftOffset = currentLeftValue - sliderContainerWidth;
                     $slider.animate({
                         'left': nextLeftOffset + 'px'
-                    }, {
-                        duration: animationDuration,
-                        start: function () {
-                            disableArrows();
-                        },
-                        complete: function () {
-                            enableArrows();
-                        }
-                    });
+                    }, animationProperties);
                 }
         };
 
@@ -143,7 +142,7 @@
             navigationImages.each(function (index) {
                 var $imgClone = $(this).clone();
                 $imgClone.removeClass('slider-img').addClass('slider-navigation-image');
-                $imgClone.data('index', index);
+                $imgClone.attr('data-index', index);
                 $sliderNavigationContainer.append($imgClone);
             });
         }
@@ -156,7 +155,7 @@
             $sliderContainer.append($sliderBulletsNavigation);
             navigationImages.each(function (index) {
                 var $tempBullet = $('<div class="round-bullet-navigation"></div>');
-                $tempBullet.data('bullet-index', index);
+                $tempBullet.attr('data-bullet-index', index);
                 $sliderBulletsContainer.append($tempBullet);
             });
         }
@@ -182,11 +181,7 @@
                 sliderPrev = currentLeftValue + sliderContainerWidth;
                 $slider.animate({
                     'left': sliderPrev + 'px'
-                }, {
-                    duration: animationDuration,
-                    start: disableArrows,
-                    complete: enableArrows
-                });
+                }, animationProperties);
                 setInterval(interval, sliderTransitionSpeed);
             }
             interval = setInterval(autoSlide, sliderTransitionSpeed);
@@ -202,11 +197,7 @@
                 sliderNext = currentLeftValue - sliderContainerWidth;
                 $slider.animate({
                     'left': sliderNext + 'px'
-                }, {
-                    duration: animationDuration,
-                    start: disableArrows,
-                    complete: enableArrows
-                });
+                }, animationProperties);
                 setInterval(interval, sliderTransitionSpeed);
             }
             interval = setInterval(autoSlide, sliderTransitionSpeed);
@@ -215,9 +206,9 @@
         function navigationClick(e) {
             if (e.target.className === 'slider-navigation-image') {
                 clearInterval(interval);
-                var moveSliderTo = $(e.target).data('index');
-                $slider.css('left', -(sliderContainerWidth * moveSliderTo) + 'px');
-                interval = setInterval(autoSlide, imageTransitionTime);
+                var $moveSliderTo = $(e.target).data('index');
+                $slider.css('left', -(sliderContainerWidth * $moveSliderTo) + 'px');
+                interval = setInterval(autoSlide, sliderTransitionSpeed);
             }
         }
 
@@ -248,7 +239,8 @@
 
         function autoSlideMobile() {
             currentLeftValue = $slider.offset().left;
-            if (currentLeftValue <= (-sliderWidth + sliderContainerWidth)) {
+            var checkIfReachedLastImage = currentLeftValue <= (sliderContainerWidth - sliderWidth);
+            if (checkIfReachedLastImage) {
                 currentSlide = 0;
                 $slider.css('left', '0px');
                 checkBulletsPosition(currentSlide);
@@ -256,7 +248,7 @@
                 currentSlide += 1;
                 nextLeftOffset = currentLeftValue - sliderContainerWidth;
                 $slider.animate({
-                    'left': +nextLeftOffset + 'px'
+                    'left': nextLeftOffset + 'px'
                 }, animationDurationMobile);
                 checkBulletsPosition(currentSlide);
             }
@@ -265,11 +257,12 @@
         function navigateMobileImages(e) {
             if (e.target.className === 'round-bullet-navigation') {
                 clearInterval(intervalMobile);
-                var moveSliderTo = $(e.target).data('bullet-index');
+                var $moveSliderTo = $(e.target).data('bullet-index');
+
                 $(e.target).siblings().removeClass('active-bullet');
                 $(e.target).addClass('active-bullet');
                 $slider.animate({
-                    'left': + -(sliderContainerWidth * moveSliderTo) + 'px'
+                    'left': -(sliderContainerWidth * $moveSliderTo) + 'px'
                 }, animationDurationMobile);
                 interval = setInterval(autoSlideMobile, sliderTransitionSpeed);
             }
@@ -307,10 +300,10 @@
         }
 
         function checkBulletsPosition(position) {
-            var bulletTruePosition = $('[data-bullet-index=' + position + ']');
+            var $bulletTruePosition = $('[data-bullet-index=' + position + ']');
             if (position != $('.active-bullet').data('bullet-index')) {
-                bulletTruePosition.siblings().removeClass('active-bullet');
-                bulletTruePosition.addClass('active-bullet');
+                $bulletTruePosition.siblings().removeClass('active-bullet');
+                $bulletTruePosition.addClass('active-bullet');
             }
         }
 
@@ -362,7 +355,7 @@
 
         var SliderApi = {
             init: init
-        }
+        };
 
         return SliderApi;
     }();
