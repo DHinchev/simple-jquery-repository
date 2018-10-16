@@ -115,8 +115,8 @@
 
         function autoSlide() {
             currentLeftValue = $slider.offset().left;
-
-            if (currentLeftValue <= (sliderContainerWidth - sliderWidth)) {
+            var hasLastSlideHasBeenReached = currentLeftValue <= (sliderContainerWidth - sliderWidth);
+            if (hasLastSlideHasBeenReached) {
                 $slider.css('left', 0);
             } else {
                 nextLeftOffset = currentLeftValue - sliderContainerWidth;
