@@ -137,11 +137,9 @@
         };
 
         function createSliderNavigation(navigationImages) {
-            var $sliderNavigation = $('<div></div>');
-            var sliderNavigationContainer = $('<div></div>');
+            var $sliderNavigation = $('<div class="slider-navigation"></div>');
+            var sliderNavigationContainer = $('<div class="slider-navigation-container"></div>');
 
-            $sliderNavigation.addClass('slider-navigation');
-            sliderNavigationContainer.addClass('slider-navigation-container');
             $sliderNavigation.append(sliderNavigationContainer);
             $sliderContainer.append($sliderNavigation);
             navigationImages.each(function (index) {
@@ -153,28 +151,26 @@
         }
 
         function createSliderBulletsNavigation(navigationImages) {
-            var $sliderBulletsNavigation = $('<div></div>');
-            var $sliderBulletsContainer = $('<div></div>');
-            $sliderBulletsNavigation.addClass('bullets-navigation');
-            $sliderContainer.append($sliderBulletsNavigation);
-            $sliderBulletsContainer.addClass('slider-bullets');
+            var $sliderBulletsNavigation = $('<div class="bullets-navigation"></div>');
+            var $sliderBulletsContainer = $('<div class="slider-bullets"></div>');
+
             $sliderBulletsNavigation.append($sliderBulletsContainer);
+            $sliderContainer.append($sliderBulletsNavigation);
             navigationImages.each(function (index) {
-                var $tempBullet = $('<div></div>');
-                $tempBullet.addClass('round-bullet-navigation');
+                var $tempBullet = $('<div class="round-bullet-navigation"></div>');
                 $tempBullet.data('bullet-index', index);
                 $sliderBulletsContainer.append($tempBullet);
             });
         }
 
         var disableArrows = function () {
-            $prev.addClass("active");
-            $next.addClass("active");
+            $prev.addClass('active');
+            $next.addClass('active');
         }
 
         var enableArrows = function () {
-            $prev.removeClass("active");
-            $next.removeClass("active");
+            $prev.removeClass('active');
+            $next.removeClass('active');
         }
 
         function moveOffsetLeft() {
@@ -182,11 +178,11 @@
             clearInterval(interval);
             if (currentLeftValue >= 0) {
                 sliderPrev = -sliderWidth + sliderContainerWidth;
-                $slider.css("left", sliderPrev + "px");
+                $slider.css('left', sliderPrev + 'px');
             } else {
                 sliderPrev = currentLeftValue + sliderContainerWidth;
                 $slider.animate({
-                    "left": +sliderPrev + "px"
+                    'left': +sliderPrev + 'px'
                 }, {
                     duration: animationDuration,
                     start: function () {
@@ -205,11 +201,11 @@
             currentLeftValue = $slider.offset().left;
             clearInterval(interval);
             if (currentLeftValue == (-sliderWidth + sliderContainerWidth)) {
-                $slider.css("left", "0px");
+                $slider.css('left', '0px');
             } else {
                 sliderNext = currentLeftValue - sliderContainerWidth;
                 $slider.animate({
-                    "left": +sliderNext + "px"
+                    'left': +sliderNext + 'px'
                 }, {
                     duration: animationDuration,
                     start: function () {
@@ -228,7 +224,7 @@
             if (e.target.className === 'slider-navigation-image') {
                 clearInterval(interval);
                 var moveSliderTo = $(e.target).data('index');
-                $slider.css("left", -(sliderContainerWidth * moveSliderTo) + "px");
+                $slider.css('left', -(sliderContainerWidth * moveSliderTo) + 'px');
                 interval = setInterval(autoSlide, imageTransitionTime);
             }
         }
@@ -319,7 +315,7 @@
         }
 
         function checkBulletsPosition(position) {
-            var bulletTruePosition = $("[data-bullet-index='" + position + "']");
+            var bulletTruePosition = $('[data-bullet-index=' + position + ']');
             if (position != $('.active-bullet').data('bullet-index')) {
                 bulletTruePosition.siblings().removeClass('active-bullet');
                 bulletTruePosition.addClass('active-bullet');
@@ -334,7 +330,7 @@
                 currentSlide = Math.min(Math.max(currentSlide, 0), slideCount - 1);
                 pixelOffset = currentSlide * -$sliderContainer.width();
                 $slider.animate({
-                    "left": +pixelOffset + "px"
+                    'left': +pixelOffset + 'px'
                 }, animationDurationMobile);
                 checkBulletsPosition(currentSlide);
             }
