@@ -21,7 +21,6 @@
         var pixelOffset = 0;
         var currentSlide = 0;
         var sliderContainerWidth;
-        var sliderContainerWidthMobile;
         var sliderChildrenLength;
         var sliderWidth;
         var menuIcon = document.querySelector('.menu-icon');
@@ -46,7 +45,6 @@
         function getSliderDimensions() {
             sliderContainerWidth = $sliderContainer.width();
             sliderWidth = sliderContainerWidth * sliderChildrenLength;
-            sliderContainerWidthMobile = sliderContainerWidth;
         }
 
         function getSliderElement() {
@@ -138,15 +136,15 @@
 
         function createSliderNavigation(navigationImages) {
             var $sliderNavigation = $('<div class="slider-navigation"></div>');
-            var sliderNavigationContainer = $('<div class="slider-navigation-container"></div>');
+            var $sliderNavigationContainer = $('<div class="slider-navigation-container"></div>');
 
-            $sliderNavigation.append(sliderNavigationContainer);
+            $sliderNavigation.append($sliderNavigationContainer);
             $sliderContainer.append($sliderNavigation);
             navigationImages.each(function (index) {
                 var $imgClone = $(this).clone();
                 $imgClone.removeClass('slider-img').addClass('slider-navigation-image');
                 $imgClone.data('index', index);
-                sliderNavigationContainer.append($imgClone);
+                $sliderNavigationContainer.append($imgClone);
             });
         }
 
@@ -229,9 +227,9 @@
             }
         }
 
-        function resetImageSize() {
+        function restrictImageSizeToSliderContainer() {
             $images.each(function () {
-                $(this).width(sliderContainerWidthMobile);
+                $(this).width(sliderContainerWidth);
             });
         }
 
@@ -256,13 +254,13 @@
 
         function autoSlideMobile() {
             currentLeftValue = $slider.offset().left;
-            if (currentLeftValue <= (-sliderWidth + sliderContainerWidthMobile)) {
+            if (currentLeftValue <= (-sliderWidth + sliderContainerWidth)) {
                 currentSlide = 0;
                 $slider.css('left', '0px');
                 checkBulletsPosition(currentSlide);
             } else {
                 currentSlide += 1;
-                nextLeftOffset = currentLeftValue - sliderContainerWidthMobile;
+                nextLeftOffset = currentLeftValue - sliderContainerWidth;
                 $slider.animate({
                     'left': +nextLeftOffset + 'px'
                 }, animationDurationMobile);
@@ -277,7 +275,7 @@
                 $(e.target).siblings().removeClass('active-bullet');
                 $(e.target).addClass('active-bullet');
                 $slider.animate({
-                    'left': + -(sliderContainerWidthMobile * moveSliderTo) + 'px'
+                    'left': + -(sliderContainerWidth * moveSliderTo) + 'px'
                 }, animationDurationMobile);
                 interval = setInterval(autoSlideMobile, imageTransitionTime);
             }
@@ -356,7 +354,7 @@
 
             createSliderNavigation(sliderChildren);
             createSliderBulletsNavigation(sliderChildren);
-            resetImageSize();
+            restrictImageSizeToSliderContainer();
 
             interval = setInterval(autoSlide, imageTransitionTime);
 
