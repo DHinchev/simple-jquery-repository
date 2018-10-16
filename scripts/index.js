@@ -145,11 +145,10 @@
             $sliderNavigation.append(sliderNavigationContainer);
             $sliderContainer.append($sliderNavigation);
             createNavigationImages.each(function (index) {
-                var temp = $(this).clone();
-                temp.addClass('slider-navigation-image');
-                temp.removeClass('slider-img');
-                temp.attr('data-index', index);
-                sliderNavigationContainer.append(temp);
+                var imgClone = $(this).clone();
+                imgClone.removeClass('slider-img').addClass('slider-navigation-image');
+                imgClone.data('index', index);
+                sliderNavigationContainer.append(imgClone);
             });
         }
 
